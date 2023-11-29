@@ -37,7 +37,7 @@ app.use(session({
 }))
 
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', './views/pages');
 
 app.use(express.urlencoded({ extended: true}));
 
