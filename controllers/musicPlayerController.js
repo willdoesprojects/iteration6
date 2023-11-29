@@ -1,4 +1,4 @@
-const UserModel = require("../models/Users");
+const ListenersModel = require("../models/Listeners");
 
 const homePageHandler = async (req, res) => {
     if (!req.session.index) {
@@ -8,7 +8,7 @@ const homePageHandler = async (req, res) => {
 
     if (req.session.isAuth) {
         
-        const user = await UserModel.findById(req.session.userId);
+        const user = await ListenersModel.findOne({userId:req.session.userId});
 
         if (user.queuedSongs.length === 0) {
             res.render('index', {func: "logOut()", link: "#", username: user["username"], songName: "Hello", artist: "Please add songs to begin."});
@@ -27,7 +27,7 @@ const homePageHandler = async (req, res) => {
 
 
 const getSongQueueHandler = async (req, res) => {
-    const user = await UserModel.findById(req.session.userId);
+    const user = await ListenersModel.findByOne({userId:req.session.userId});
 
     if (user == null) {
         res.json(null);

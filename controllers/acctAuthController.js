@@ -7,11 +7,12 @@ const signUpHandler = async (req, res) => {
     user = new UserModel({
         username,
         email,
-        password
+        password,
+        userFlag: 0,
     });
 
     listener = new ListnerModel({
-        userId: user.id
+        userId: user._id
     })
 
     await user.save();
@@ -38,7 +39,15 @@ const loginHandler = async (req, res) => {
     req.session.userId = user._id;
     req.session.isAuth = true;
 
-    res.redirect('/');
+    if  (user.userFlag == 3) {
+        const title = 'Producer Home Screen';
+        const cssFile = 'css/producer.css';
+        res.render('pages/ProducerPage',{title, cssFile});
+    }
+
+    else {
+        res.redirect('/');
+    }
 }
 
 module.exports = { signUpHandler, loginHandler };
