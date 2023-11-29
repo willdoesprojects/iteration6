@@ -42,7 +42,7 @@ const loginHandler = async (req, res) => {
     if  (user.userFlag == 3) {
         const title = 'Producer Home Screen';
         const cssFile = 'css/producer.css';
-        res.render('pages/ProducerPage',{title, cssFile});
+        res.render('ProducerPage',{title, cssFile});
     }
 
     else {

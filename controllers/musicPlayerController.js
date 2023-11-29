@@ -27,7 +27,7 @@ const homePageHandler = async (req, res) => {
 
 
 const getSongQueueHandler = async (req, res) => {
-    const user = await ListenersModel.findByOne({userId:req.session.userId});
+    const user = await ListenersModel.findOne({userId:req.session.userId});
 
     if (user == null) {
         res.json(null);
