@@ -1,4 +1,5 @@
 const UserModel = require("../models/Users");
+const ListnerModel = require("../models/Listeners");
 
 const signUpHandler = async (req, res) => {
     const { username, email, password } = req.body;
@@ -7,9 +8,14 @@ const signUpHandler = async (req, res) => {
         username,
         email,
         password
+    });
+
+    listener = new ListnerModel({
+        userId: user.id
     })
 
     await user.save();
+    await listener.save();
 
     req.session.userId = user._id;
     req.session.isAuth = true;
