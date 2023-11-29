@@ -138,7 +138,7 @@ nav {
 
 .box{
     grid-column: 1 / 2;
-    background-color: #586569;
+    background-color: #2C1919;
     border-radius: 50px;
 
 }
@@ -166,7 +166,7 @@ nav {
 
 
 .scroll-container{
-    background-color: #586569;
+    background-color: #2C1919;
     grid-column: 2 / 6;
     border-radius: 25px;
     display: grid;
@@ -176,7 +176,7 @@ nav {
 .scroll-songs {
     grid-row: 1/2;
     border-radius: 25px;
-    background-color: #586569;
+    background-color: #2C1919;
     text-align: center;
     display: grid;
     grid-column-gap: 20px;
@@ -189,7 +189,7 @@ nav {
 
   .scroll-djs {
     border-radius: 25px;
-    background-color: #586569;
+    background-color: #2C1919;
     text-align: center;
     display: grid;
     grid-column-gap: 20px;

@@ -312,7 +312,7 @@ const main = async() => {
   app.get('/homepage', function(req, res) {
     const title = 'Producer Home Screen';
     const cssFile = 'css/producer.css';
-    res.render('pages/ProducerPage',{title, cssFile});
+    res.render('ProducerPage',{title, cssFile});
   });
   
   // dj Playlist page, passes in previous ejs variables, and new db doc, for static and dynamic variable creation
@@ -321,7 +321,7 @@ const main = async() => {
     const title = 'DJ Playlist Screen';
     const cssFile = 'css/prod-djPlaylist.css';
   
-    res.render('pages/djPlaylist',{
+    res.render('djPlaylist',{
       title,
       cssFile,
       playlist: playlist
