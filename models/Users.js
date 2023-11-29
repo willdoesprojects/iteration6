@@ -18,20 +18,8 @@ const userSchema = new Schema({
         required: true,
     },
 
-    favoriteSongs: {
-        type: Array
-    },
-
-    favoriteDJs: {
-        type: Array
-    },
-
-    queuedSongs: {
-        type: Array
-    },
-
-    queuedDJs: {
-        type: Array
+    userFlag: {
+        flag: Number,
     }
 });
 
