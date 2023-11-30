@@ -7,7 +7,7 @@ const homePageHandler = async (req, res) => {
         req.session.index = 0;
     }
 
-    if (req.session.isAuth) {
+    if (req.session.isAuth && req.session.flag != 2 && req.session.flag != 3) {
         
         const userListener = await ListenersModel.findOne({userId:req.session.userId});
         const user = await UserModel.findById(req.session.userId);
