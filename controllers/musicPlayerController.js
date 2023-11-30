@@ -30,7 +30,7 @@ const homePageHandler = async (req, res) => {
 
 const getSongQueueHandler = async (req, res) => {
     // const user = await UserModel.findById(req.session.userId);
-    console.log(req.session.playlistId);
+
     const userListener = await DJModel.findById(req.session.playlistId);
 
     if (userListener == null) {

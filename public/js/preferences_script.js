@@ -12,7 +12,6 @@ async function fetchSongData() {
 }
 
 fetchSongData().then((data) => {
-    console.log(data)
     if (data.CurrDJ == null) {
         for (let i = 0; i < data.DJs.length; i++) {
             song_dj_list.push(data.DJs[i]);
