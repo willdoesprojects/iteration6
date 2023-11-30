@@ -103,7 +103,7 @@ const main = async() => {
                         {title: 'Think About It', artist: 'Dev Lemons', songLoco: 'songs/06 Think About It.m4a', imageLoco: 'images/delusional_Album.jpg'},
                         {title: 'Baby Came Home 2', artist: 'The Neighbourhood', songLoco: 'songs/07 Baby Came Home 2 _ Valentines.m4a', imageLoco: 'images/wiped out.png'},
                         {title: 'My Love Mine All Mine', artist: 'Mitski', songLoco: 'songs/07 My Love Mine All Mine.m4a', imageLoco: 'images/TLIIASAW_Album.png'},
-                        {title: 'Thunder', artist: 'Lana Del Rey', songLoco: 'songs/10 thunder.m4a', imageLoco: 'images/BlueBanisters.png'},
+                        {title: 'Thunder', artist: 'Lana Del Rey', songLoco: 'songs/10 thunder.m4a', imageLoco: 'images/BlueBanisters_Album.png'},
                         {title: 'Ilomilo', artist: 'Billie Eilish', songLoco: 'songs/11 ilomilo.m4a', imageLoco: 'images/billie.png'},
                         {title: 'Cornerstone', artist: 'Arctic Monkeys', songLoco: 'songs/cornerstone.m4a', imageLoco: 'images/humbug.png'}
                       ];
