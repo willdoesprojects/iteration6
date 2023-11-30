@@ -41,7 +41,7 @@ const loginHandler = async (req, res) => {
 
     if  (user.userFlag == 3) {
         req.session.flag = 3;
-        res.redirect('djPlaylist');
+        res.redirect('/homepage');
     }
     else if (user.userFlag == 2) {
         req.session.flag = 2;
