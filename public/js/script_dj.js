@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log('Server response:', data);
             displaySongDataDiv.innerHTML = ''; // Clear previous content
-
             // Display retrieved data in the HTML
             data.data.forEach(audio => {
                 displaySongDataDiv.appendChild(createSongContainer(audio));
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
             displayPlaylistDataDiv.innerHTML = ''; // Clear previous content
 
             // Display retrieved data in the HTML
-            data.data.forEach(audio => {
+            data.data.songs.forEach(audio => {
                 displayPlaylistDataDiv.appendChild(createPlaylistContainer(audio));
             });
         })
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log('Server response:', data);
             // Display retrieved data in the HTML
-            data.data.forEach(audio => {
+            data.data.songs.forEach(audio => {
                 let pName = document.createElement('a');
                 pName.innerHTML = audio.name;
                 addSongDropdown.appendChild(pName);
@@ -128,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //Cover
         let songTabCoverContainer = document.createElement('div');
             let songTabCoverImage = document.createElement('img');
-            songTabCoverImage.src = audio.cover;
+            songTabCoverImage.src = audio.imageLoco;
             songTabCoverImage.alt = "CoverImg";
             songTabCoverImage.style = "width:90px;height:90px;";
             songTabCoverContainer.appendChild(songTabCoverImage);

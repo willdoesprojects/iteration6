@@ -348,52 +348,41 @@ const main = async() => {
 
 /******************************* Jason's Code ****************************/
 // Render the index.ejs file
-const isDJ = (req, res, next) => {
-  if (req.session.isAuth && req.session.flag == 2) {
-    next();
-  }
+// const isDJ = (req, res, next) => {
+//   if (req.session.isAuth && req.session.flag == 2) {
+//     next();
+//   }
 
-  else {
-    res.redirect("./");
-  }
-}
+//   else {
+//     res.redirect("./");
+//   }
+// }
 
-app.get('/djhomepage', isDJ, (req, res) => {
+const UserModel = require("./models/Users");
+
+app.get('/djhomepage', async (req, res) => {
+  const user = await UserModel.findOne({ username: "jason" });
+  req.session.playlistId = user.playlistId;
   res.render('index_dj');
 });
 
-// Connect to MongoDB and handle button press to retrieve song data
+
+const SongModel = require("./models/Songs");
 app.get('/retrieveSongData', async (req, res) => {
       // Find documents
-      console.log(req.session.playlistId);
-      const data = await PlaylistModel.findById(req.session.playlistId);
-      console.log(data);
+      const data = await SongModel.find();
 
       // Send response to the client
-      res.json({ success: true, message: 'Data retrieved from MongoDB', data });
+      res.json({ data });
 
 });
 
 // Connect to MongoDB and handle button press to retrieve playlist data
 app.get('/retrievePlaylistData', async (req, res) => {
-  try {
-      console.log('\nAttempting to retrieve playlist data');
-      await client.connect();
-      console.log('Connected to MongoDB');
+  const data = await PlaylistModel.findById(req.session.playlistId);
 
-      // Find documents
-      const data = await findDocuments('test', 'coll_playlists', {});
-      console.log('MongoDB accessed');
-
-      // Send a response to the client
-      res.json({ success: true, message: 'Data retrieved from MongoDB', data });
-  } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ success: false, error: 'Internal Server Error' });
-  } finally {
-      await client.close();
-      console.log('Closed MongoDB connection');
-  }
+      // Send response to the client
+  res.json({ data });
 });
 
 // Inserts a document into MongoDB
