@@ -1,11 +1,11 @@
 const ListenersModel = require("../models/Listeners");
 const UserModel = require("../models/Users");
+const DJModel = require("../models/playlists");
 
 const homePageHandler = async (req, res) => {
     if (!req.session.index) {
         req.session.index = 0;
     }
-
 
     if (req.session.isAuth) {
         
@@ -29,14 +29,16 @@ const homePageHandler = async (req, res) => {
 
 
 const getSongQueueHandler = async (req, res) => {
-    const userListener = await ListenersModel.findOne({userId:req.session.userId});
+    // const user = await UserModel.findById(req.session.userId);
+    console.log(req.session.playlistId);
+    const userListener = await DJModel.findById(req.session.playlistId);
 
     if (userListener == null) {
         res.json(null);
     }
     
     else {
-        res.json({queuedSongs: userListener.queuedSongs, index: req.session.index});
+        res.json({queuedSongs: userListener.songs, index: req.session.index});
     }
     
 };
@@ -54,6 +56,7 @@ const getIndexDecrHandler = async (req, res) => {
     res.redirect("/");
     
 }
+
 
 
 module.exports = { homePageHandler, getSongQueueHandler, getIndexIncrHandler, getIndexDecrHandler };

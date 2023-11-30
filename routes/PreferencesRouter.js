@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UserModel = require("../models/Users");
 
+
 const isAuthenticated = (req, res, next) => {
     if (req.session.isAuth) {
       next();

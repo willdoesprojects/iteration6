@@ -49,6 +49,7 @@ const loginHandler = async (req, res) => {
         res.redirect('/djhomepage');
     }
     else {
+        req.session.playlistId = user.playlistId;
         res.redirect('/');
     }
 }
