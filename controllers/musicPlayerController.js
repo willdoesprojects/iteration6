@@ -1,4 +1,5 @@
 const ListenersModel = require("../models/Listeners");
+const UserModel = require("../models/Users");
 
 const homePageHandler = async (req, res) => {
     if (!req.session.index) {
@@ -8,14 +9,15 @@ const homePageHandler = async (req, res) => {
 
     if (req.session.isAuth) {
         
-        const user = await ListenersModel.findOne({userId:req.session.userId});
+        const userListener = await ListenersModel.findOne({userId:req.session.userId});
+        const user = await UserModel.findById(req.session.userId);
 
-        if (user.queuedSongs.length === 0) {
-            res.render('index', {func: "logOut()", link: "#", username: user["username"], songName: "Hello", artist: "Please add songs to begin."});
+        if (userListener.queuedSongs.length === 0) {
+            res.render('index', {func: "logOut()", link: "#", username: user["username"], songName: "Hello", artist: "Please add DJs to begin."});
         }
         
         else {
-            res.render('index', {func: "logOut()", link: "#", username: user["username"], songName: user["queuedSongs"][req.session.index]["name"], artist: user["queuedSongs"][req.session.index]["artist"]});
+            res.render('index', {func: "logOut()", link: "#", username: user["username"], songName: userListener["queuedSongs"][req.session.index]["name"], artist: userListener["queuedSongs"][req.session.index]["artist"]});
 
         }
         
@@ -27,14 +29,14 @@ const homePageHandler = async (req, res) => {
 
 
 const getSongQueueHandler = async (req, res) => {
-    const user = await ListenersModel.findOne({userId:req.session.userId});
+    const userListener = await ListenersModel.findOne({userId:req.session.userId});
 
-    if (user == null) {
+    if (userListener == null) {
         res.json(null);
     }
     
     else {
-        res.json({queuedSongs: user.queuedSongs, index: req.session.index});
+        res.json({queuedSongs: userListener.queuedSongs, index: req.session.index});
     }
     
 };
@@ -52,8 +54,6 @@ const getIndexDecrHandler = async (req, res) => {
     res.redirect("/");
     
 }
-
-
 
 
 module.exports = { homePageHandler, getSongQueueHandler, getIndexIncrHandler, getIndexDecrHandler };
