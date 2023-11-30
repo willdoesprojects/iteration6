@@ -348,20 +348,20 @@ const main = async() => {
 
 /******************************* Jason's Code ****************************/
 // Render the index.ejs file
-// const isDJ = (req, res, next) => {
-//   if (req.session.isAuth && req.session.flag == 2) {
-//     next();
-//   }
+const isDJ = (req, res, next) => {
+  if (req.session.isAuth && req.session.flag == 2) {
+    next();
+  }
 
-//   else {
-//     res.redirect("./");
-//   }
-// }
+  else {
+    res.redirect("./");
+  }
+}
 
 const UserModel = require("./models/Users");
 
-app.get('/djhomepage', async (req, res) => {
-  const user = await UserModel.findOne({ username: "jason" });
+app.get('/djhomepage', isDJ , async (req, res) => {
+  const user = await UserModel.findById(req.session.userId);
   req.session.playlistId = user.playlistId;
   res.render('index_dj');
 });
