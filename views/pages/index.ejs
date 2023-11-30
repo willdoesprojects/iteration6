@@ -18,7 +18,7 @@
                     <li><a href="./"><%= username !== "Login" ? 'Welcome, ' + username + '!' : ' ' %></a></li>
 
                     <li><a href="/homepage">About Us</a></li>
-                    <li><a href= <%= link %> onclick=<%= func %>><%= username %></a></li>
+                    <li><a href= <%= link %> onclick=<%= func %>><%= username !== "Login" ? 'Logout' : 'Login' %></a></li>
                 </ul>
             </nav>
         </header>
@@ -57,7 +57,7 @@
             </section>
             
             <section class="audio-player">
-                <audio src = "" id="audio">
+                <audio src = "" id="audio" volume=".01">
                 </audio>
 
                 <div class="progress-container" id="progress-container">

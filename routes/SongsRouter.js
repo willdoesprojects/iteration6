@@ -8,8 +8,14 @@ router.post("/addsongtofavorites", songsController.addFavSongHandler);
 
 router.post("/removefavoritesong", songsController.removeFavSongHandler);
 
-router.get("/listsongs", songsController.getSongs);
+router.get("/listdjsongs", songsController.getSongDJs);
 
 router.post("/setqueue", songsController.setQueueHandler);
+
+router.post("/djaddqueue", songsController.addDJQueueHandler);
+
+router.post("/removedj", songsController.removeDJHandler);
+
+router.get("/getdjs", songsController.DJRetrieveHandler);
 
 module.exports = router;

@@ -18,7 +18,7 @@ let isPlaying = false;
 let index_val = 0;
 
 songQueue = [];
-
+DJList = [];
 
 async function fetchQueue() {
     const response = await fetch("/getsongqueue");

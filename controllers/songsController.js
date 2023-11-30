@@ -1,19 +1,19 @@
 const UserModel = require("../models/Users");
 const SongModel = require("../models/Songs");
+const ListenersModel = require("../models/Listeners");
+const DJsModel = require("../models/playlists");
+
 const favSongsListHandler = async (req, res) => {
-    const user = await UserModel.findById(req.session.userId);
+    const user = await ListenersModel.findOne({userId: req.session.userId});
     res.json(user);
 }
 
 const addFavSongHandler = async (req, res) => {
     const { song } = req.body;
 
-    const user = await UserModel.findById(req.session.userId);
+    const user = await ListenersModel.findOne({userId: req.session.userId});
 
     user.favoriteSongs.push(song);
-
-    user.queuedSongs.push(song);
-
 
     await user.save();
 }
@@ -21,17 +21,63 @@ const addFavSongHandler = async (req, res) => {
 const removeFavSongHandler = async (req, res) => {
     const { song } = req.body;
 
-    const user = await UserModel.findById(req.session.userId);
+    const user = await ListenersModel.findOne({userId: req.session.userId});
     user.favoriteSongs.remove(song);
     user.queuedSongs.remove(song);
 
     await user.save();
 }
 
-const getSongs = async (req, res) => {
-    const songs = await SongModel.find();
+const getSongDJs = async (req, res) => {
+    const DJSongs = await DJsModel.find();
+    const user = await UserModel.findById(req.session.userId);
+
+    res.json({DJs: DJSongs, CurrDJ: user.playlistId});
+}
+
+const addDJQueueHandler = async (req, res) => {
+    const { dj } = req.body;
+    const user = await UserModel.findById(req.session.userId);
+
+
+    if (user.playlistId == null) {
+        user.playlistId = dj._id;
+        req.session.playlistId = dj._id;
+        req.session.save();
+    }
+
+    const listener = await ListenersModel.findOne({userId: req.session.userId});
+    listener.queuedDJs.push(dj);
+
+    await listener.save();
+
+    await user.save();
+
+}
+
+const removeDJHandler = async (req, res) => {
+    const { dj } = req.body;
     
-    res.json(songs);
+    const user = await UserModel.findById(req.session.userId);
+    const listener = await ListenersModel.findOne({userId: req.session.userId});
+
+    if (user.playlistId == dj._id) {
+        user.playlistId = null;
+        req.session.playlistId = null;
+
+        await user.save();
+        await req.session.save();
+    }
+
+    listener.queuedDJs.remove(dj);
+    await listener.save();
+
+}
+
+const DJRetrieveHandler = async (req, res) => {
+    const listener = await ListenersModel.findOne({userId: req.session.userId});
+
+    res.json(listener.queuedDJs);
 }
 
 const setQueueHandler = async (req, res) => {
@@ -43,4 +89,4 @@ const setQueueHandler = async (req, res) => {
 }
 
 
-module.exports = { favSongsListHandler, addFavSongHandler, removeFavSongHandler, getSongs, setQueueHandler };
+module.exports = { favSongsListHandler, addFavSongHandler, removeFavSongHandler, getSongDJs, setQueueHandler, addDJQueueHandler, removeDJHandler, DJRetrieveHandler };
