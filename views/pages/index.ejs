@@ -15,9 +15,11 @@
             <nav class="navbar">
                 <ul>
                     <li><a href="./">Lofi-Station</a></li>
+                    <li><a href="./"><%= username !== "Login" ? 'Welcome, ' + username + '!' : ' ' %></a></li>
+
                     <li><a href="/homepage">About Us</a></li>
                     <li><a href="/djhomepage">gotodj</a></li>
-                    <li><a href= <%= link %> onclick=<%= func %>><%= username %></a></li>
+                    <li><a href= <%= link %> onclick=<%= func %>><%= username !== "Login" ?  'Logout' : 'Login' %></a></li>
                 </ul>
             </nav>
         </header>
