@@ -372,6 +372,8 @@ app.get('/retrieveSongData', async (req, res) => {
       // Find documents
       const data = await SongModel.find();
 
+      //TODO have search bar actually influence what shows up
+
       // Send response to the client
       res.json({ data });
 

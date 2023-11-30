@@ -1,15 +1,17 @@
 // public/myscript.js
 
 document.addEventListener('DOMContentLoaded', function () {
-    const sendDataButton = document.getElementById('sendDataButton');
+    initializeTabs();
+    //const sendDataButton = document.getElementById('sendDataButton');
     const retrieveSongDataButton = document.getElementById('retrieveSongDataButton');
-    const retrievePlaylistDataButton = document.getElementById('retrievePlaylistDataButton');
+    //const retrievePlaylistDataButton = document.getElementById('retrievePlaylistDataButton');
     const displaySongDataDiv = document.getElementById('displaySongData');
     const displayPlaylistDataDiv = document.getElementById('displayPlaylistData');
+    const playPlaylistButton = document.getElementById('playPlaylistButton');
 
-    //Retrieve data button
+    // Retrieves and displays song data
     retrieveSongDataButton.addEventListener('click', function () {
-        console.log("retrieveSongDataButton click");
+        //console.log("retrieveSongDataButton click");
         fetch('/retrieveSongData', {
             method: 'GET',
             headers: {
@@ -35,9 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(input[0].value);
     });
 
-    //Retrieve data button
-    retrievePlaylistDataButton.addEventListener('click', function () {
-        console.log("retrievePlaylistDataButton click");
+    // Plays the first song in the playlist
+    playPlaylistButton.addEventListener('click', function () {
+        console.log("playPlaylistButton clicked")
+        
         fetch('/retrievePlaylistData', {
             method: 'GET',
             headers: {
@@ -47,79 +50,200 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             console.log('Server response:', data);
-            displayPlaylistDataDiv.innerHTML = ''; // Clear previous content
 
-            // Display retrieved data in the HTML
-            data.data.songs.forEach(audio => {
-                displayPlaylistDataDiv.appendChild(createPlaylistContainer(audio));
-            });
+            playSong(data.data.songs[0]);
         })
         .catch(error => {
             console.error('Error:', error);
         });
-
-        //temp code that accesses the song search bar
-        let forminput = document.getElementById('song-search-bar');
-        let input = forminput.getElementsByTagName('input');
-        console.log(input[0].value);
     });
 
+    // Function to create an add button for each song element
     function createAddButton(audio){
-        console.log("createAddButton");
+        //console.log("createAddButton");
         const addButtonContainer = document.createElement('div');
 
         const playButton = document.createElement('button');
         playButton.textContent = "Add";
         playButton.classname = "add-button";
+
+        playButton.addEventListener("click", function(){
+        
+        let title = audio.name;
+        // determine which dj's playlist we need
+        let dj = "Mitski";
+    
+        try{
+            console.log(title);
+    
+            // Fetch the getSong post
+            const response = fetch('/getSong', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // Pass in necessary vals for query
+                body: JSON.stringify({
+                    songTitle: title,
+                    djOwner: dj
+                }),
+    
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server Response', data);
+    
+                // IF unsuccessful alert user with appropriate message
+                if(!data.success){
+                    console.log(data.message);
+                    alert(data.message);
+                }
+                // Otherwise update dom to reflect backend
+                else{
+                    //updateDOM(); 
+                    fetch('/retrievePlaylistData', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Server response:', data);
+                        displayPlaylistDataDiv.innerHTML = ''; // Clear previous content
+            
+                        // Display retrieved data in the HTML
+                        data.data.songs.forEach(audio => {
+                            displayPlaylistDataDiv.appendChild(createPlaylistContainer(audio));
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    }); 
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error1', error);
+            })
+        }
+        catch(error){
+            console.error('Fetching Error2:', error);
+        }
+    
+        });
+
         addButtonContainer.appendChild(playButton);
 
         const addSongDropdown = document.createElement('div');
         addSongDropdown.className = "dropdown-content";
         addSongDropdown.style = "max-height:150px;overflow-y:scroll;";
-
-        fetch('/retrievePlaylistData', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Server response:', data);
-            // Display retrieved data in the HTML
-            data.data.songs.forEach(audio => {
-                let pName = document.createElement('a');
-                pName.innerHTML = audio.name;
-                addSongDropdown.appendChild(pName);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-
         addButtonContainer.appendChild(addSongDropdown);
         return addButtonContainer;
     }
 
-    // Function to create a play button for each audio element
+    // Function to create a play button for each song element
     function createPlayButton(audio) {
-        console.log("createPlayButton");
+        //console.log("createPlayButton");
         const playButton = document.createElement('button');
         playButton.textContent = 'Play';
         playButton.addEventListener('click', function () {
-            currCover.src = audio.cover;
+            currCover.src = audio.imageLoco;
             currSongName.innerHTML = audio.name;
             currSongArtist.innerHTML = audio.artist;
-            audioPlayer.src = audio.path;
+            audioPlayer.src = audio.songLoco;
             audioPlayer.volume = .05;
             audioPlayer.play();
         });
         return playButton;
     }
 
-    // Function to create a container with audio information and play button
+    // Function to create a remove song button for each playlist element
+    function createRemoveButton(audio) {
+        //console.log("createRemoveButton")
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Delete';
+        removeButton.addEventListener('click', function () {
+            let title = audio.name;
+            // determine which dj's playlist we need
+            let dj = "Mitski";
+            
+            try{
+                console.log(title);
+                const response = fetch('/removeSong', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // Necessary query vals
+                    body: JSON.stringify({
+                        songTitle: title,
+                        djOwner: dj
+                    }),
+        
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server Response', data);
+        
+                    // IF unsuccessful, alert user with appropriate message
+                    if(!data.success){
+                        console.log(data.message);
+                        alert(data.message);
+                    }
+                    // IF successful update dom to reflect backend
+                    else{
+                        //updateDOM();
+                        fetch('/retrievePlaylistData', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Server response:', data);
+                            displayPlaylistDataDiv.innerHTML = ''; // Clear previous content
+                
+                            // Display retrieved data in the HTML
+                            data.data.songs.forEach(audio => {
+                                displayPlaylistDataDiv.appendChild(createPlaylistContainer(audio));
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    
+                        // Update player and global song pointer using the backend to determine
+                        // If a song change is necessary upon deletion
+                        // IF last song was deleted 
+                        if(data.doc.totalSongs <= 0){
+                            audioSource.src = "#";
+                            audioPlay.load();
+                            document.getElementById("playPause").innerHTML="&#x23F5";
+                            currSong = 0;
+                            updatePlayText();
+                        }
+                        //IF song that was currently playing is deleted
+                        else if(currSong == data.index){
+                            --currSong;
+                            playNext();
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch Error1', error);
+                })
+            }
+            catch(error){
+                console.error('Fetching Error2:', error);
+            }
+        });
+        return removeButton;
+    }
+
+    // Function to create a container with audio information, play, and add buttons
     function createSongContainer(audio) {
-        console.log("createSongContainer");
+        //console.log("createSongContainer");
         //Song item
         let songTabListItem = document.createElement('div');
         songTabListItem.className = "side-tab-list-item";
@@ -157,8 +281,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return songTabListItem;
     }
 
+    // Function to create a container with playlist information, play, and remove buttons
     function createPlaylistContainer(audio) {
-        console.log("createPlaylistContainer");
+        //console.log("createPlaylistContainer");
         //Song item
         let playlistTabListItem = document.createElement('div');
         playlistTabListItem.className = "side-tab-list-item";
@@ -166,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //Cover
         let playlistTabCoverContainer = document.createElement('div');
             let playlistTabCoverImage = document.createElement('img');
-            playlistTabCoverImage.src = audio.cover;
+            playlistTabCoverImage.src = audio.imageLoco;
             playlistTabCoverImage.alt = "CoverImg";
             playlistTabCoverImage.style = "width:90px;height:90px;";
             playlistTabCoverContainer.appendChild(playlistTabCoverImage);
@@ -185,10 +310,68 @@ document.addEventListener('DOMContentLoaded', function () {
         playlistTabArtist.style = "margin-left:auto";
         playlistTabListItem.appendChild(playlistTabArtist);
 
+        //Remove button
+        let playlistRemoveButton = createRemoveButton(audio);
+        playlistTabListItem.appendChild(playlistRemoveButton);
+
         //Play button
         let playlistPlayButton = createPlayButton(audio);
         playlistTabListItem.appendChild(playlistPlayButton);
 
         return playlistTabListItem;
+    }
+
+    // Function that plays a given song
+    function playSong(audio){
+        currCover.src = audio.imageLoco;
+        currSongName.innerHTML = audio.name;
+        currSongArtist.innerHTML = audio.artist;
+        audioPlayer.src = audio.songLoco;
+        audioPlayer.volume = .05;
+        audioPlayer.play();
+    }
+
+    // Populates playlist/song tabs upon loading page
+    function initializeTabs(){
+        //Initialize playlist tab
+        fetch('/retrievePlaylistData', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            displayPlaylistDataDiv.innerHTML = ''; // Clear previous content
+    
+            // Display retrieved data in the HTML
+            data.data.songs.forEach(audio => {
+                displayPlaylistDataDiv.appendChild(createPlaylistContainer(audio));
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        //Initialize song tab
+        fetch('/retrieveSongData', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            displaySongDataDiv.innerHTML = ''; // Clear previous content
+            // Display retrieved data in the HTML
+            data.data.forEach(audio => {
+                displaySongDataDiv.appendChild(createSongContainer(audio));
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 });

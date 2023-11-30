@@ -1,14 +1,13 @@
 /* public/css/style.css */
 
 :root{
-	--bg1: rgb(38, 36, 35);
+    --bg1: #352F2F;
 	--bg2: #454241;
-    --tab-bg1: #151d45;
-    --tab-bg2: #212e4d;
-    --tab-item1: #5b5c78;
-    --tab-item2: #515f70;
-    --textcolor1: rgb(255, 251, 243);
-    /*--textcolor2: rgb(224, 221, 213);*/
+    --tab-bg1: #2C1919;
+    --tab-bg2: #422a2a;
+    --tab-item1: #78615b;
+    --tab-item2: #624d48;
+    --textcolor1: #fffbf3;
     --highlight: #c0d8e3;
     --deffonts: Arial, Helvetica, sans-serif;
     --DEBUG: red;
