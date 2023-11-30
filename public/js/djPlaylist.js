@@ -132,12 +132,12 @@ function updateDOM(){
             // If not, set dom to default display
             if(data.success){
                 let playlist = data.playlist.songs;
-                document.getElementById('song1').innerHTML = playlist[0] ? (playlist[0].title + ' - ' + playlist[0].artist) : 'Add song';
-                document.getElementById('song2').innerHTML = playlist[1] ? (playlist[1].title + ' - ' + playlist[1].artist) : 'Add song';
-                document.getElementById('song3').innerHTML = playlist[2] ? (playlist[2].title + ' - ' + playlist[2].artist) : 'Add song';
-                document.getElementById('song4').innerHTML = playlist[3] ? (playlist[3].title + ' - ' + playlist[3].artist) : 'Add song';
-                document.getElementById('song5').innerHTML = playlist[4] ? (playlist[4].title + ' - ' + playlist[4].artist) : 'Add song';
-                document.getElementById('song6').innerHTML = playlist[5] ? (playlist[5].title + ' - ' + playlist[5].artist) : 'Add song';
+                document.getElementById('song1').innerHTML = playlist[0] ? (playlist[0].name + ' - ' + playlist[0].artist) : 'Add song';
+                document.getElementById('song2').innerHTML = playlist[1] ? (playlist[1].name + ' - ' + playlist[1].artist) : 'Add song';
+                document.getElementById('song3').innerHTML = playlist[2] ? (playlist[2].name + ' - ' + playlist[2].artist) : 'Add song';
+                document.getElementById('song4').innerHTML = playlist[3] ? (playlist[3].name + ' - ' + playlist[3].artist) : 'Add song';
+                document.getElementById('song5').innerHTML = playlist[4] ? (playlist[4].name + ' - ' + playlist[4].artist) : 'Add song';
+                document.getElementById('song6').innerHTML = playlist[5] ? (playlist[5].name + ' - ' + playlist[5].artist) : 'Add song';
 
             }     
         })
@@ -253,7 +253,7 @@ function updatePlayText(){
                     return 0;
                 }
             
-                var currTitle = playlist[currSong].title;
+                var currTitle = playlist[currSong].name;
                 var currArtist = playlist[currSong].artist;
             
                 playText.innerHTML = "Now Playing: " + currTitle + " - " + currArtist;
@@ -302,7 +302,7 @@ function playPause(){
                 }
 
                 if(audioSource.getAttribute('src') === "#"){
-                    audioSource.src = playlist[currSong].songSrc;
+                    audioSource.src = playlist[currSong].songLoco;
                     audioPlay.load();
                     updatePlayText();
                 }
@@ -361,7 +361,7 @@ function playNext(){
                     ++currSong;
                 }
             
-                audioSource.src = playlist[currSong].songSrc;
+                audioSource.src = playlist[currSong].songLoco;
             
                 if(!audioPlay.paused){
                     audioPlay.load();
@@ -417,7 +417,7 @@ function playLast(){
                     --currSong;
                 }
             
-                audioSource.src = playlist[currSong].songSrc;
+                audioSource.src = playlist[currSong].songLoco;
             
                 if(!audioPlay.paused){
                     audioPlay.load();

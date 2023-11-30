@@ -64,7 +64,7 @@ app.post("/logout", async (req, res) => {
 
 /***************************** Ronnie's Code *****************************/
 // Mongoose Fields
-var songData = require('./models/songData');
+var songData = require('./models/Songs');
 var playlists = require('./models/playlists');
 
 var db;
@@ -94,25 +94,26 @@ const main = async() => {
   
       // if Songs have not been added to the database of songs, adds them
       // Otherwise, skips this step
-      if(currSongData.length == 0){
-        const songs = [ {title: 'I Bet On Losing Dogs', artist: 'Mitski', songSrc: 'songs/iBetOnLosingDogs.mp3'},
-                        {title: 'Fade Into You', artist: 'Mazzy Star',songSrc: 'songs/01 Fade into You.m4a'},
-                        {title: 'Cheers', artist: 'Faye Webster', songSrc: 'songs/06 Cheers.m4a'},
-                        {title: 'Think About It', artist: 'Dev Lemons', songSrc: 'songs/06 Think About It.m4a'},
-                        {title: 'Baby Came Home 2', artist: 'The Neighbourhood', songSrc: 'songs/07 Baby Came Home 2 _ Valentines.m4a'},
-                        {title: 'My Love Mine All Mine', artist: 'Mitski', songSrc: 'songs/07 My Love Mine All Mine.m4a'},
-                        {title: 'Thunder', artist: 'Lana Del Rey',songSrc: 'songs/10 thunder.m4a'},
-                        {title: 'Ilomilo', artist: 'Billie Eilish', songSrc: 'songs/11 ilomilo.m4a'},
-                        {title: 'Cornerstone', artist: 'Arctic Monkeys', songSrc: 'songs/cornerstone.m4a'}
+      if(currSongData.length <= 3){
+        const songs = [ {title: 'I Bet On Losing Dogs', artist: 'Mitski', songLoco: 'songs/iBetOnLosingDogs.mp3', imageLoco: 'images/mitski.png'},
+                        {title: 'Fade Into You', artist: 'Mazzy Star', songLoco: 'songs/01 Fade into You.m4a', imageLoco: 'images/mazzy_Album.jpg'},
+                        {title: 'Cheers', artist: 'Faye Webster', songLoco: 'songs/06 Cheers.m4a', imageLoco: 'images/Cheers_Album.jpg'},
+                        {title: 'Think About It', artist: 'Dev Lemons', songLoco: 'songs/06 Think About It.m4a', imageLoco: 'images/delusional_Album.jpg'},
+                        {title: 'Baby Came Home 2', artist: 'The Neighbourhood', songLoco: 'songs/07 Baby Came Home 2 _ Valentines.m4a', imageLoco: 'images/wiped out.png'},
+                        {title: 'My Love Mine All Mine', artist: 'Mitski', songLoco: 'songs/07 My Love Mine All Mine.m4a', imageLoco: 'images/TLIIASAW_Album.png'},
+                        {title: 'Thunder', artist: 'Lana Del Rey', songLoco: 'songs/10 thunder.m4a', imageLoco: 'images/BlueBanisters.png'},
+                        {title: 'Ilomilo', artist: 'Billie Eilish', songLoco: 'songs/11 ilomilo.m4a', imageLoco: 'images/billie.png'},
+                        {title: 'Cornerstone', artist: 'Arctic Monkeys', songLoco: 'songs/cornerstone.m4a', imageLoco: 'images/humbug.png'}
                       ];
   
         // CREATE Song Entries to fill db
         for(let i = 0; i < songs.length; i++){
   
           const newEntry = {
-            title: songs[i].title,
+            name: songs[i].title,
             artist: songs[i].artist,
-            songSrc: songs[i].songSrc,
+            songLoco: songs[i].songLoco,
+            imageLoco: songs[i].imageLoco
           }
   
           songData.create(newEntry)
@@ -164,7 +165,7 @@ const main = async() => {
       console.log({songTitle});
   
       // Check if song exists in db
-      const song = await songData.findOne({title:songTitle});
+      const song = await songData.findOne({name:songTitle});
   
       // If song exists
       if(song){
@@ -233,7 +234,7 @@ const main = async() => {
       const { songTitle } = req.body;
       const { djOwner } = req.body
       console.log(songTitle);
-      const song = await songData.findOne({title: songTitle});
+      const song = await songData.findOne({name: songTitle});
   
       // Find playlist to edit
       await playlists.findOne({djOwner: djOwner})
@@ -242,7 +243,7 @@ const main = async() => {
         // When found, find first index of song to be removed, and remove it from the array
         if(doc){
           console.log(song);
-          const index = doc.songs.findIndex(song => song.title == songTitle);
+          const index = doc.songs.findIndex(song => song.name == songTitle);
   
           // If there are no songs to remove in the playlist, alert the user via message
           if(doc.totalSongs == 0){
