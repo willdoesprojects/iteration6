@@ -1,0 +1,66 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style_dj.css">
+    <title>Chill-Fi</title>
+</head>
+<body>
+    <%- include('../partials/header_dj') %>
+
+    <div>
+        <div class="tab-container">
+            <!-- Playlist Tab -->
+            <div class="tab tab-left">
+                <!--header containing title & search bar-->
+                <div class="side-tab-header">
+                    <div class="tab-title-text">Playlists</div>
+                    <form style="text-align:center; text-wrap:nowrap;" name="playlistform" onsubmit="searchPlaylist()" id="playlist-search-bar">
+                        <input type="text" style="width:80%" placeholder="Enter playlist name here" class="placeholder-text" name="playlistname">
+                    </form>
+                    <button id="retrievePlaylistDataButton">Search Playlists</button>
+                </div>
+                <!--nav list of playlists-->
+                <div class="side-tab-list playlist-tab">
+                    <nav id="displayPlaylistData"></nav>
+                </div>
+            </div>
+
+            <!-- Song Tab -->
+            <div class="tab tab-right">
+                <!--header containing title & search bar-->
+                <div class="side-tab-header song-tab">
+                    <div class="tab-title-text">Songs</div>
+                    <form style="text-align:center; text-wrap:nowrap;" name="songform" onsubmit="searchSong()" id="song-search-bar">
+                        <input type="text" style="width:80%" placeholder="Enter song name here" class="placeholder-text" name="songname">
+                    </form>
+                    <button id="retrieveSongDataButton">Search Songs</button>
+                </div>
+
+                <!-- Container to display received song data -->
+                <div class="side-tab-list song-tab">
+                    <nav id="displaySongData"></nav>
+                </div>
+            </div>
+
+            <!-- Current Song Tab -->
+            <div class="tab tab-mid-bot">
+                <div class="mid-bot-tab-text">Currently Playing:</div>
+                <div><img id="currCover" style="height:250px;width:250px;" id="curr-song-cover"></div>
+                <div class="mid-bot-tab-song-name" id="currSongName"></div>
+                <div class="mid-bot-tab-song-artist" id="currSongArtist"></div>
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="item progress-container" style="text-align:center; margin:auto; padding: 10px;">
+            <audio id="audioPlayer" volume=".3" controls></audio>
+        </div>
+    </div>
+
+    <script src="/js/script_dj.js"></script>
+</body>
+</html>

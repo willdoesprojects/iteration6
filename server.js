@@ -330,6 +330,92 @@ const main = async() => {
 
 /*************************** End of Ronnie's Code ************************/
 
+
+/******************************* Jason's Code ****************************/
+
+const { MongoClient } = require('mongodb');
+const uri2 = 'mongodb+srv://testuser:testpassword@cluster0.oburu6d.mongodb.net/test?retryWrites=true&w=majority';
+const client = new MongoClient(uri2);
+
+// Render the index.ejs file
+app.get('/djhomepage', (req, res) => {
+  res.render('index_dj');
+});
+
+// Render the about.ejs file
+app.get('/about', (req, res) => {
+  res.render('about_dj');
+});
+
+// Render the home.ejs file
+app.get('/user', (req, res) => {
+  res.render('user_dj');
+});
+
+// Connect to MongoDB and handle button press to retrieve song data
+app.get('/retrieveSongData', async (req, res) => {
+  try {
+      console.log('\nAttempting to retrieve song data');
+      await client.connect();
+      console.log('Connected to MongoDB');
+
+      // Find documents
+      const data = await findDocuments('test', 'coll_songs', {});
+      console.log('MongoDB accessed');
+
+      // Send response to the client
+      res.json({ success: true, message: 'Data retrieved from MongoDB', data });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+  } finally {
+      await client.close();
+      console.log('Closed MongoDB connection');
+  }
+});
+
+// Connect to MongoDB and handle button press to retrieve playlist data
+app.get('/retrievePlaylistData', async (req, res) => {
+  try {
+      console.log('\nAttempting to retrieve playlist data');
+      await client.connect();
+      console.log('Connected to MongoDB');
+
+      // Find documents
+      const data = await findDocuments('test', 'coll_playlists', {});
+      console.log('MongoDB accessed');
+
+      // Send a response to the client
+      res.json({ success: true, message: 'Data retrieved from MongoDB', data });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+  } finally {
+      await client.close();
+      console.log('Closed MongoDB connection');
+  }
+});
+
+// Inserts a document into MongoDB
+async function insertDocument(dbname, collname, document) {
+    const database = client.db(dbname);
+    const collection = database.collection(collname);
+
+    const result = await collection.insertOne(document);
+    console.log(`Inserted document with _id: ${result.insertedId}`);
+}
+
+// Finds documents from MongoDB given a filter
+async function findDocuments(dbName, collName, filter) {
+    const database = client.db(dbName);
+    const collection = database.collection(collName);
+
+    const cursor = collection.find(filter);
+    return cursor.toArray();
+}
+
+/*************************** End of Jason's Code *************************/
+
 let port = 8080;
 app.listen(port, () => {
  console.log("Server running at port= " + port);

@@ -1,0 +1,351 @@
+/* public/css/style.css */
+
+:root{
+	--bg1: rgb(38, 36, 35);
+	--bg2: #454241;
+    --tab-bg1: #151d45;
+    --tab-bg2: #212e4d;
+    --tab-item1: #5b5c78;
+    --tab-item2: #515f70;
+    --textcolor1: rgb(255, 251, 243);
+    /*--textcolor2: rgb(224, 221, 213);*/
+    --highlight: #c0d8e3;
+    --deffonts: Arial, Helvetica, sans-serif;
+    --DEBUG: red;
+}
+
+body{
+    background-color: var(--bg1);
+}
+
+/****************** HEADER ******************/
+/* Banner that holds header elements */
+.header-banner{
+    display: flex;
+    width: 100%;
+    height: 20%;
+    min-height: 100px;
+    align-items: center;
+    /*background-color: var(--bg2);*/
+}
+
+/* Header elements */
+.header-banner > div{
+    max-height: 70px;
+    max-width: 200px;
+    padding: 10px;
+    margin: 5px;
+    /*background-color: var(--DEBUG);*/
+}
+
+/* Header elements text */
+.header-banner > div > a{
+    overflow: hidden;
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 200%;
+    color: var(--textcolor1);
+}
+
+/* Header elements text hover */
+.header-banner > div.headertext:hover{
+    background-color: var(--highlight);
+}
+
+/* Header elements images */
+.header-banner > div > img{
+    height: 70px;
+    width: 70px;
+}
+/****************** HEADER ******************/
+
+
+/****************** DIVIDER *****************/
+.horizontal-divider{
+    width: 100%;
+    height: 4px;
+    margin: 4px 0px 22px 0px;
+    background-color: var(--bg2);
+}
+/****************** DIVIDER *****************/
+
+
+/******************* TABS *******************/
+/* Grid container for tabs */
+.tab-container{
+    display: grid;
+    height: 950px;
+    /*background-color: var(--DEBUG);*/
+    grid-template-rows: 10% 50% 40%;
+    grid-template-columns: 35% 5% 20% 5% 35%;
+}
+
+/* Tab element container */
+.tab{
+    text-align: center;
+    font-family: var(--deffonts);
+    color: var(--textcolor1);
+    background-color: var(--tab-bg1);
+}
+
+/* Left tab element container */
+.tab-left{
+    grid-row: 1 / 4;
+    grid-column: 1 / 2;
+}
+
+/* Right tab element container */
+.tab-right{
+    grid-row: 1 / 4;
+    grid-column: 5 / 6;
+}
+
+/* Middle top tab element container */
+.tab-mid-top{
+    grid-row: 2 / 3;
+    grid-column: 3 / 4;
+}
+
+/* Middle bottom tab element container */
+.tab-mid-bot{
+    grid-row: 3 / 4;
+    grid-column: 3 / 4;
+}
+
+/* Side tab header */
+.side-tab-header{
+    height: 100px;
+    width: 97%;
+    margin: 10px auto 0px auto;
+    background-color: var(--tab-bg2);
+}
+
+/* Side tab header title text */
+.side-tab-header > div.tab-title-text{
+    overflow: hidden;
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 200%;
+    padding: 15px;
+    color: var(--textcolor1);
+}
+
+/* List of elements(playlists/songs) */
+.side-tab-list{
+    height: auto;
+    width: 97%;
+    margin: 10px auto 0px auto;
+    background-color: var(--tab-bg2);
+}
+
+.side-tab-list > nav{
+    height: 815px;
+    overflow-y: scroll;
+}
+
+/* Playlist/song element */
+.side-tab-list-item{
+    display: flex;
+    width: 98%;
+    height: 100px;
+    margin: 5px auto 5px auto;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--tab-item1);
+}
+
+.side-tab-list-item:nth-child(odd){
+    background-color: var(--tab-item2);
+}
+
+.side-tab-list-item:hover{
+    background-color: var(--highlight);
+}
+
+.side-tab-list-item > div{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.side-tab-list-item > div.song-name,.song-artist,.playlist-name,.playlist-artist{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 140%;
+    color: var(--textcolor1);
+}
+
+.side-tab-list-item > div.song-artist{
+    max-width: 19%;
+}
+
+.side-tab-list-item > div.song-name{
+    max-width: 36%;
+}
+
+.mid-top-tab-header{
+    /*basically same as side-tab-header or just header*/
+    height: 10%;
+    width: 90%;
+    margin: 10px auto 0px auto;
+    overflow: hidden;
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 200%;
+    padding: 15px;
+    background-color: var(--tab-bg2);
+    color: var(--textcolor1);
+}
+
+/*list of times*/
+.mid-top-tab-list{
+    height: 80%;
+    width: 96%;
+    margin: 10px auto 0px auto;
+    overflow-y: scroll;
+    background-color: var(--tab-bg2);
+}
+
+/*times*/
+.mid-top-tab-list-item > div{
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0px auto 5px auto;
+    background-color: var(--tab-item1);
+}
+
+.mid-top-tab-list-item > div:nth-child(-n + 12){
+    background-color: var(--tab-item2);
+}
+
+.timeslot-text{
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.mid-bot-tab-text{
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 200%;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.mid-bot-tab-song-name{
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 140%;
+}
+
+.mid-bot-tab-song-artist{
+    text-align: center;
+    font-family: var(--deffonts);
+    font-weight: bold;
+    font-size: 100%;
+}
+/******************* TABS *******************/
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.add-button:focus + .dropdown-content {
+    display: block;
+}
+
+/************ SONG CONTROL PANEL ************/
+/*
+.song-control-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.tab-song-control-panel{
+    display: grid;
+    width: 50%;
+    grid-template-rows: 50px;
+    grid-template-columns: 100px auto 50px auto 100px;
+}
+
+.play-pause-button{
+    grid-row: 1 / 2;
+    grid-column: 3 / 4;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.play {
+    width: 50px;
+    height: 50px;
+    background-image: url('Icons/temp_play.png');
+}
+
+.pause {
+    background-image: url('Icons/temp_pause.png');
+}
+
+.volume-slider{
+    grid-row: 1 / 2;
+    grid-column: 5 / 6;
+}
+
+.progress-bar-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 15px;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.progress {
+    height: 100%;
+    width: 0;
+    background-color: #007bff;
+}
+*/
+/************ SONG CONTROL PANEL ************/
