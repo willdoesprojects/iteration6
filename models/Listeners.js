@@ -19,7 +19,7 @@ const listnerSchema = new Schema({
     },
 
     queuedSongs: {
-        type: Array
+        type: Array // = song[1] route
     },
 
     queuedDJs: {

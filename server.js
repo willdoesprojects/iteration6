@@ -315,8 +315,20 @@ const main = async() => {
     res.render('ProducerPage',{title, cssFile});
   });
   
+  
+  const isProducer = (req, res, next) => {
+    if (req.session.isAuth && UserModel.findById(req.session.userId).flag == 3) {
+      next();
+    }
+
+    else {
+      res.redirect("./");
+    }
+
+  }
+
   // dj Playlist page, passes in previous ejs variables, and new db doc, for static and dynamic variable creation
-  app.get('/djPlaylist', async function(req, res) {
+  app.get('/djPlaylist', isProducer, async function(req, res) {
     var playlist = await playlists.findOne({djOwner: 'Mitski'});
     const title = 'DJ Playlist Screen';
     const cssFile = 'css/prod-djPlaylist.css';
