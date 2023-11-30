@@ -12,6 +12,8 @@ const Preference = require("./routes/PreferencesRouter");
 const songsRoute = require("./routes/SongsRouter");
 const musicPlayerRoute = require("./routes/MusicPlayerRouter");
 
+const UserModel = require("./models/Users");
+
 const crypto = require('crypto');
 //const { db } = require("./models/Users");
 
@@ -318,7 +320,7 @@ const main = async() => {
   
   
   const isProducer = (req, res, next) => {
-    if (req.session.isAuth && UserModel.findById(req.session.userId).flag == 3) {
+    if (req.session.isAuth && req.session.flag == 3) {
       next();
     }
 
@@ -355,26 +357,11 @@ app.get('/djhomepage', (req, res) => {
   res.render('index_dj');
 });
 
-// Render the about.ejs file
-app.get('/about', (req, res) => {
-  res.render('about_dj');
-});
-
-// Render the home.ejs file
-app.get('/user', (req, res) => {
-  res.render('user_dj');
-});
-
 // Connect to MongoDB and handle button press to retrieve song data
 app.get('/retrieveSongData', async (req, res) => {
   try {
-      console.log('\nAttempting to retrieve song data');
-      await client.connect();
-      console.log('Connected to MongoDB');
-
       // Find documents
       const data = await findDocuments('test', 'coll_songs', {});
-      console.log('MongoDB accessed');
 
       // Send response to the client
       res.json({ success: true, message: 'Data retrieved from MongoDB', data });

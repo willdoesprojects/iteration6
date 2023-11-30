@@ -40,6 +40,7 @@ const loginHandler = async (req, res) => {
     req.session.isAuth = true;
 
     if  (user.userFlag == 3) {
+        req.session.flag = 3;
         const title = 'Producer Home Screen';
         const cssFile = 'css/producer.css';
         res.render('ProducerPage',{title, cssFile});
