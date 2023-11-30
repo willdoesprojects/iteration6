@@ -20,6 +20,10 @@ const userSchema = new Schema({
 
     userFlag: {
         flag: Number,
+    },
+
+    playlistId: {
+        type: mongoose.Schema.Types.ObjectId,
     }
 });
 

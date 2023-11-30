@@ -12,7 +12,7 @@ const Preference = require("./routes/PreferencesRouter");
 const songsRoute = require("./routes/SongsRouter");
 const musicPlayerRoute = require("./routes/MusicPlayerRouter");
 
-const UserModel = require("./models/Users");
+const PlaylistModel = require("./models/playlists");
 
 const crypto = require('crypto');
 //const { db } = require("./models/Users");
@@ -347,53 +347,44 @@ const main = async() => {
 
 
 /******************************* Jason's Code ****************************/
-
-const { MongoClient } = require('mongodb');
-const uri2 = 'mongodb+srv://testuser:testpassword@cluster0.oburu6d.mongodb.net/test?retryWrites=true&w=majority';
-const client = new MongoClient(uri2);
-
 // Render the index.ejs file
-app.get('/djhomepage', (req, res) => {
+// const isDJ = (req, res, next) => {
+//   if (req.session.isAuth && req.session.flag == 2) {
+//     next();
+//   }
+
+//   else {
+//     res.redirect("./");
+//   }
+// }
+
+const UserModel = require("./models/Users");
+
+app.get('/djhomepage', async (req, res) => {
+  const user = await UserModel.findOne({ username: "jason" });
+  req.session.playlistId = user.playlistId;
   res.render('index_dj');
 });
 
-// Connect to MongoDB and handle button press to retrieve song data
+
+const SongModel = require("./models/Songs");
 app.get('/retrieveSongData', async (req, res) => {
-  try {
       // Find documents
-      const data = await findDocuments('test', 'coll_songs', {});
+      const data = await SongModel.find();
+
+      //TODO have search bar actually influence what shows up
 
       // Send response to the client
-      res.json({ success: true, message: 'Data retrieved from MongoDB', data });
-  } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ success: false, error: 'Internal Server Error' });
-  } finally {
-      await client.close();
-      console.log('Closed MongoDB connection');
-  }
+      res.json({ data });
+
 });
 
 // Connect to MongoDB and handle button press to retrieve playlist data
 app.get('/retrievePlaylistData', async (req, res) => {
-  try {
-      console.log('\nAttempting to retrieve playlist data');
-      await client.connect();
-      console.log('Connected to MongoDB');
+  const data = await PlaylistModel.findById(req.session.playlistId);
 
-      // Find documents
-      const data = await findDocuments('test', 'coll_playlists', {});
-      console.log('MongoDB accessed');
-
-      // Send a response to the client
-      res.json({ success: true, message: 'Data retrieved from MongoDB', data });
-  } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ success: false, error: 'Internal Server Error' });
-  } finally {
-      await client.close();
-      console.log('Closed MongoDB connection');
-  }
+      // Send response to the client
+  res.json({ data });
 });
 
 // Inserts a document into MongoDB

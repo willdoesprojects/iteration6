@@ -41,11 +41,13 @@ const loginHandler = async (req, res) => {
 
     if  (user.userFlag == 3) {
         req.session.flag = 3;
-        const title = 'Producer Home Screen';
-        const cssFile = 'css/producer.css';
-        res.render('ProducerPage',{title, cssFile});
+        res.redirect('djPlaylist');
     }
-
+    else if (user.userFlag == 2) {
+        req.session.flag = 2;
+        req.session.playlistId = user.playlistId;
+        res.redirect('/djhomepage');
+    }
     else {
         res.redirect('/');
     }
