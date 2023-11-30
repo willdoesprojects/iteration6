@@ -1,4 +1,6 @@
 // public/myscript.js
+currSongIndex = 0;
+playingFromPlaylist = false;
 
 document.addEventListener('DOMContentLoaded', function () {
     initializeTabs();
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Plays the first song in the playlist
     playPlaylistButton.addEventListener('click', function () {
         console.log("playPlaylistButton clicked")
-        
+
         fetch('/retrievePlaylistData', {
             method: 'GET',
             headers: {
@@ -51,11 +53,43 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log('Server response:', data);
 
-            playSong(data.data.songs[0]);
+            if (data.data.songs.length != 0){
+                currSongIndex = 0;
+                playSong(data.data.songs[currSongIndex]);
+                playingFromPlaylist = true;
+            }
+            else{
+                alert('No songs found in the current playlist');
+            }
         })
         .catch(error => {
             console.error('Error:', error);
         });
+    });
+
+    audioPlayer.addEventListener('ended', function(){
+        if (playingFromPlaylist){
+            fetch('/retrievePlaylistData', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server response:', data);
+                
+                currSongIndex++;
+                if (currSongIndex < data.data.totalSongs){
+                    console.log("PLAYING NEXT SONG: " + currSongIndex);
+                    playSong(data.data.songs[currSongIndex]);
+                }
+                else{console.log("NO SONGS LEFT: " + currSongIndex);}
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }    
     });
 
     // Function to create an add button for each song element
@@ -147,12 +181,31 @@ document.addEventListener('DOMContentLoaded', function () {
         const playButton = document.createElement('button');
         playButton.textContent = 'Play';
         playButton.addEventListener('click', function () {
-            currCover.src = audio.imageLoco;
-            currSongName.innerHTML = audio.name;
-            currSongArtist.innerHTML = audio.artist;
-            audioPlayer.src = audio.songLoco;
-            audioPlayer.volume = .05;
-            audioPlayer.play();
+            //const name = (element) => element = name
+            //update currSongIndex with data.data.songs.findIndex(name);
+            playingFromPlaylist = false;
+            fetch('/retrievePlaylistData', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server response:', data);
+    
+                lookingSong = (element) => element.name == audio.name;
+                lookingIndex = data.data.songs.findIndex(lookingSong);
+                if (lookingIndex != -1){
+                    currSongIndex = lookingIndex;
+                    
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            
+            playSong(audio);
         });
         return playButton;
     }
