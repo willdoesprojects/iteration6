@@ -18,13 +18,9 @@ const userSchema = new Schema({
         required: true,
     },
 
-    userFlag: {
-        flag: Number,
-    },
-
-    playlistId: {
-        type: mongoose.Schema.Types.ObjectId,
+    playlists: {
+        type: Array
     }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("users", userSchema);

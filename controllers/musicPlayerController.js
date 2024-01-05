@@ -1,6 +1,6 @@
 const ListenersModel = require("../models/Listeners");
 const UserModel = require("../models/Users");
-const DJModel = require("../models/playlists");
+const DJModel = require("../models/Playlists");
 
 const homePageHandler = async (req, res) => {
     if (!req.session.index) {

@@ -1,7 +1,7 @@
 const UserModel = require("../models/Users");
 const SongModel = require("../models/Songs");
 const ListenersModel = require("../models/Listeners");
-const DJsModel = require("../models/playlists");
+const DJsModel = require("../models/Playlists");
 
 const favSongsListHandler = async (req, res) => {
     const user = await ListenersModel.findOne({userId: req.session.userId});

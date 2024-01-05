@@ -1,5 +1,4 @@
 const UserModel = require("../models/Users");
-const ListnerModel = require("../models/Listeners");
 
 const signUpHandler = async (req, res) => {
     const { username, email, password } = req.body;
@@ -8,12 +7,7 @@ const signUpHandler = async (req, res) => {
         username,
         email,
         password,
-        userFlag: 0,
     });
-
-    listener = new ListnerModel({
-        userId: user._id
-    })
 
     await user.save();
     await listener.save();
@@ -39,19 +33,9 @@ const loginHandler = async (req, res) => {
     req.session.userId = user._id;
     req.session.isAuth = true;
 
-    if  (user.userFlag == 3) {
-        req.session.flag = 3;
-        res.redirect('/homepage');
-    }
-    else if (user.userFlag == 2) {
-        req.session.flag = 2;
-        req.session.playlistId = user.playlistId;
-        res.redirect('/djhomepage');
-    }
-    else {
-        req.session.playlistId = user.playlistId;
-        res.redirect('/');
-    }
+    
+    res.redirect('/');
+    
 }
 
 module.exports = { signUpHandler, loginHandler };
