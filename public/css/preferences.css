@@ -1,0 +1,102 @@
+header { 
+    background-color: #2C1919;
+    overflow: hidden;
+    height: 60px;
+}
+
+nav img {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+}
+
+main {
+    margin-left: 350px;
+
+}
+
+.sect-2 input{
+    width: 80%;
+    height: 6vh;
+    border-radius: 15px;
+    border: none;
+}
+
+.sect-2 input:focus {
+    outline: none;
+    border: 3pt solid #2C1919;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-results {
+    display: flex;
+    justify-content: center;
+}
+
+.results {
+    list-style: none;
+    padding: 0;
+    margin: 2px;
+    border-radius: 15px;
+    
+    color: black;
+    width: 80%;
+}
+
+.results li {
+    padding-left: 10px;
+    background-color: white;
+    border: solid 1pt black;
+    border-radius: 15px;
+    height: 30px;
+}
+
+.results li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.results li button {
+    border-radius: 15px;
+    margin-right: 8px;
+    border: 2px solid black;
+}
+
+.results li button:hover {
+    background-color: green;
+}
+
+.liked-songs li {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.liked-songs li button {
+    border-radius: 15px;
+    margin-right: 8px;
+    border: 2px solid black;
+}
+
+.liked-songs li button:hover {
+    background-color: red;
+}
+
+aside {
+    background-color: #2C1919; /* Adjust color as needed */
+    margin: .5em;
+    border-radius: 20px;
+    width: 350px; /* Adjust width as needed */
+    height: 95vh;
+    overflow-y: auto; /* For scrolling if playlists exceed the viewport height */
+    position: fixed; /* To make the playlist sidebar stay in place when scrolling */
+}
+
+aside h2 {
+    text-align: center;
+}
+

@@ -5,31 +5,31 @@ song_dj_list = []
 favoriteSongList = []
 dj_list = []
 
-async function fetchSongData() {
-    const response = await fetch("/listdjsongs");
-    const data = await response.json();
-    return data; 
-}
+// async function fetchSongData() {
+//     const response = await fetch("/listdjsongs");
+//     const data = await response.json();
+//     return data; 
+// }
 
-fetchSongData().then((data) => {
-    if (data.CurrDJ == null) {
-        for (let i = 0; i < data.DJs.length; i++) {
-            song_dj_list.push(data.DJs[i]);
-        }
-    }
+// fetchSongData().then((data) => {
+//     if (data.CurrDJ == null) {
+//         for (let i = 0; i < data.DJs.length; i++) {
+//             song_dj_list.push(data.DJs[i]);
+//         }
+//     }
 
-    else {
-        for (let i = 0; i < data.DJs.length; i++) {
-            if (data.DJs[i]._id === data.CurrDJ) {
-                for (let j = 0; j < data.DJs[i].songs.length; j++) {
-                    song_dj_list.push(data.DJs[i].songs[j]);
-                }
-            }
-            song_dj_list.push(data.DJs[i]);
-        }
+//     else {
+//         for (let i = 0; i < data.DJs.length; i++) {
+//             if (data.DJs[i]._id === data.CurrDJ) {
+//                 for (let j = 0; j < data.DJs[i].songs.length; j++) {
+//                     song_dj_list.push(data.DJs[i].songs[j]);
+//                 }
+//             }
+//             song_dj_list.push(data.DJs[i]);
+//         }
 
-    }
-})
+//     }
+// })
 
 
 let liked_songs = document.querySelector(".liked-songs");
@@ -230,16 +230,16 @@ const openModal = function () {
 };
 
 
-async function fetchFavoriteSongData() {
-    const response = await fetch("/getfavoritesongs");
-    const data = await response.json();
-    return data; 
-}
+// async function fetchFavoriteSongData() {
+//     const response = await fetch("/getfavoritesongs");
+//     const data = await response.json();
+//     return data; 
+// }
 
-fetchFavoriteSongData().then((data) => {
-    favoriteSongList = data;
-    openModalBtn.addEventListener("click", openModal);
-})
+// fetchFavoriteSongData().then((data) => {
+//     favoriteSongList = data;
+//     openModalBtn.addEventListener("click", openModal);
+// })
 
 const openModal2 = function () {
 
@@ -285,13 +285,13 @@ const openModal2 = function () {
     }
   };
 
-async function fetchDJData() {
-    const response = await fetch("/getdjs");
-    const data = await response.json();
-    return data; 
-}
+// async function fetchDJData() {
+//     const response = await fetch("/getdjs");
+//     const data = await response.json();
+//     return data; 
+// }
 
-fetchDJData().then((data) => {
-    dj_list = data;
-    openModalBtn2.addEventListener("click", openModal2);
-})
+// fetchDJData().then((data) => {
+//     dj_list = data;
+//     openModalBtn2.addEventListener("click", openModal2);
+// })

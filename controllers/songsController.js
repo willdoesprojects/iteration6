@@ -1,6 +1,4 @@
 const UserModel = require("../models/Users");
-const SongModel = require("../models/Songs");
-const ListenersModel = require("../models/Listeners");
 const DJsModel = require("../models/Playlists");
 
 const favSongsListHandler = async (req, res) => {
