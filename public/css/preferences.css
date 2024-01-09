@@ -91,7 +91,7 @@ aside {
     margin: .5em;
     border-radius: 20px;
     width: 350px; /* Adjust width as needed */
-    height: 95vh;
+    height: 92vh;
     overflow-y: auto; /* For scrolling if playlists exceed the viewport height */
     position: fixed; /* To make the playlist sidebar stay in place when scrolling */
 }
@@ -100,3 +100,10 @@ aside h2 {
     text-align: center;
 }
 
+.playlist-container {
+    background-color: #2C1919;
+    border-radius: 10px;
+
+
+    
+}
