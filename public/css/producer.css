@@ -17,6 +17,9 @@ body{
 p{
     align-items: center;
 }
+th{
+    background-color: powderblue;
+}
 
 .page-indicator{
     font-weight: bold;
@@ -211,8 +214,6 @@ nav {
     margin-left: 20px;
     font-family: 'Assistant';
 
-
-
   }
 
   .scroll-songs-label{
@@ -223,6 +224,4 @@ nav {
     margin-left: 20px;
     margin-top: 10px;
     font-family: 'Assistant';
-
-
   }
